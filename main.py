@@ -2,12 +2,14 @@ import discord
 from discord.ext import commands
 import os
 
-from help_cog import help_cog
-from music_cog import music_cog
+from help_cog import HelpCog
+from music_cog import Music_Cog
 
-bot = commands.Bot(command_prefix='/')
+bot = commands.Bot(command_prefix='/', intents=discord.Intents.default())
 
-bot.add_cog(help_cog(bot))
-bot.add_cog(music_cog(bot))
+bot.remove_command('help')
 
-bot.run(os.getenv('MTE1MTgwNzAwMjY1MDA4NzQzNQ.G8Wc6X._Al1K75CLn_hahI4rtG3jhZv2xPU0bKMQzwVVU'))
+bot.add_cog(HelpCog(bot))
+bot.add_cog(Music_Cog(bot))
+
+bot.run(os.getenv('TOKEN'))

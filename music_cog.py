@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 
 
 class Music_Cog(commands.Cog):
@@ -24,7 +24,7 @@ class Music_Cog(commands.Cog):
                 info = ydl.extract_info('ytsearch:%s' % item, download=False)['entries'][0]
             except Exception:
                 return False
-        return {'source': info['formats'[0]['url']], 'title': info['title']}
+        return {'source': info['url'], 'title': info['title']}
 
     def play_next(self):
         if len(self.music_queue) > 0:

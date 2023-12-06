@@ -60,4 +60,21 @@ class Music_Cog(commands.Cog):
     @commands.command(name='play', aliases=['p', 'playing'], help='Play the selected Song from YouTube')
     async def play(self, ctx, *args):
         query = ''.join(args)
-# video at 08:29
+
+        voice_channel = ctx.author.voice.channel
+        if voice_channel is None:
+            await ctx.send('Connect to a voice channel to play something!')
+        elif self.is_paused:
+            self.vc.resume()
+        else:
+            song = self.search_yt(query)
+        if type(song) == type(True):
+            await ctx.send('Could not download the song. Incorrect format, try a different keyword')
+        else:
+            await ctx.send('Song added to queue')
+            self.music_queue.append([song, voice_channel])
+
+            if not self.is_playing:
+                await self.play_music(ctx)
+
+

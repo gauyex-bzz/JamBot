@@ -52,7 +52,12 @@ class Music_Cog(commands.Cog):
 
             self.music_queue.pop(0)
 
-            self.vc.play(discord.FFmpegPCMAudio(m_url,  **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
+            self.vc.play(discord.FFmpegPCMAudio(m_url, **self.FFMPEG_OPTIONS), after=lambda e: self.play_next())
 
         else:
             self.is_playing = False
+
+    @commands.command(name='play', aliases=['p', 'playing'], help='Play the selected Song from YouTube')
+    async def play(self, ctx, *args):
+        query = ''.join(args)
+# video at 08:29

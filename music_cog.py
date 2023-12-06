@@ -68,7 +68,7 @@ class Music_Cog(commands.Cog):
             self.vc.resume()
         else:
             song = self.search_yt(query)
-        if type(song) == type(True):
+        if type(song) is type(True):
             await ctx.send('Could not download the song. Incorrect format, try a different keyword')
         else:
             await ctx.send('Song added to queue')
@@ -77,4 +77,40 @@ class Music_Cog(commands.Cog):
             if not self.is_playing:
                 await self.play_music(ctx)
 
+    @commands.command(name='pause', help='Pauses the current song')
+    async def pause(self, ctx, *args):
+        if self.is_playing:
+            self.is_playing = False
+            self.is_paused = True
+            self.vc.pause()
+        elif self.is_paused:
+            self.is_playing = True
+            self.is_paused = False
+            self.vc.resume()
 
+    @commands.command(name='resume', help='Resumes the current song')
+    async def resume(self, ctx, *args):
+        if self.is_paused:
+            self.is_playing = True
+            self.is_paused = False
+            self.vc.resume()
+
+    @commands.command(name='skip', help='Skips the current song')
+    async def skip(self, ctx, *args):
+        if self.vc is not None and self.vc:
+            self.vc.stop()
+            await self.play_music(ctx)
+
+    @commands.command(name='queue', help='Displays all queued songs')
+    async def queue(self, ctx):
+        retval = ''
+
+        for i in range(0, len(self.music_queue)):
+            if i > 10:
+                break
+            retval += self.music_queue[i][0]['title'] + '\n'
+
+        if retval != '':
+            await ctx.send(retval)
+        else:
+            await ctx.send('Nothing to see here')

@@ -114,3 +114,10 @@ class Music_Cog(commands.Cog):
             await ctx.send(retval)
         else:
             await ctx.send('Nothing to see here')
+
+    @commands.command(name='clear', help='Clears the queue')
+    async def clear(self, ctx, *args):
+        if self.vc is not None and self.is_playing:
+            self.vc.stop()
+        self.music_queue = []
+        await ctx.send('Queue is empty now')

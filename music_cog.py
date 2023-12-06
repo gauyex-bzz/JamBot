@@ -121,3 +121,9 @@ class Music_Cog(commands.Cog):
             self.vc.stop()
         self.music_queue = []
         await ctx.send('Queue is empty now')
+
+    @commands.command(name='leave', help='Resumes the current song')
+    async def leave(self, ctx):
+        self.is_playing = False
+        self.is_paused = True
+        await self.vc.disconnect()
